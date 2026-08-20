@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    container_name: campaignpro-postgres
+    environment:
+      POSTGRES_DB: campaignpro
+      POSTGRES_USER: campaignpro
+      POSTGRES_PASSWORD: campaignpro
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U campaignpro"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: campaignpro-mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  app:
+    build: .
+    container_name: campaignpro-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_URL: jdbc:postgresql://postgres:5432/campaignpro
+      DB_USERNAME: campaignpro
+      DB_PASSWORD: campaignpro
+      MAIL_HOST: mailhog
+      MAIL_PORT: 1025
+      JWT_SECRET: change-this-to-a-long-random-base64-secret-min-32-bytes
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
+
