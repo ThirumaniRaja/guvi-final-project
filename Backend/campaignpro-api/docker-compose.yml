@@ -1,20 +1,17 @@
 version: "3.9"
+
 services:
   app:
     build: .
     container_name: campaignpro-app
+
     env_file:
       - .env
+
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      DB_URL: jdbc:postgresql://dpg-da46pg0jo6nc73dpt74g-a.oregon-postgres.render.com/campaignpro
-      DB_USERNAME: campaignpro_user
-      MAIL_HOST: smtp-relay.brevo.com
-      MAIL_PORT: 587
-      MAIL_USERNAME: b6476d001@smtp-brevo.com
-      MAIL_SMTP_AUTH: "true"
-      MAIL_SMTP_STARTTLS: "true"
-      MAIL_FROM: no-reply@campaignpro.io
+
     ports:
       - "8080:8080"
 
+    restart: unless-stopped

@@ -150,6 +150,17 @@
 
 
         <!-- ===================================================== -->
+        <!-- .env loading for local development (not needed in Docker) -->
+        <!-- ===================================================== -->
+
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+
+        <!-- ===================================================== -->
         <!-- MapStruct -->
         <!-- ===================================================== -->
 

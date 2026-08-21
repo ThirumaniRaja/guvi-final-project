@@ -2,6 +2,9 @@ target/
 .idea/
 *.iml
 .DS_Store
-.env
 *.log
 
+# Ignore real env files but keep the example template committed
+.env
+.env.*
+!.env.example
