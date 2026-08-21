@@ -1,0 +1,29 @@
+export function formatDate(value?: string): string {
+  if (!value) return '—';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+export function formatDateTime(value?: string): string {
+  if (!value) return '—';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+export function formatNumber(value?: number): string {
+  if (value === undefined || value === null) return '—';
+  return value.toLocaleString();
+}
+
+export function formatPercent(value?: number): string {
+  if (value === undefined || value === null) return '—';
+  return `${value.toFixed(1)}%`;
+}

@@ -1,14 +1,23 @@
-FROM eclipse-temurin:21-jdk-alpine AS build
+# Stage 1: Build
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw && ./mvnw -q dependency:go-offline
-COPY src ./src
-RUN ./mvnw -q clean package -DskipTests
 
+COPY pom.xml .
+# Download dependencies first (better layer caching)
+RUN mvn -B -DskipTests dependency:go-offline
+
+COPY src ./src
+RUN mvn -B -DskipTests clean package
+
+# Stage 2: Run
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY --from=build /app/target/campaignpro-api-*.jar app.jar
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+COPY --from=builder /app/target/campaignpro-api-0.1.0.jar app.jar
+RUN chown appuser:appgroup /app/app.jar
+
+USER appuser
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 

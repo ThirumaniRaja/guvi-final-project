@@ -6,9 +6,9 @@ spring:
     name: campaignpro-api
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/campaignpro
-    username: postgres
-    password: admin
+    url: ${DB_URL:jdbc:postgresql://dpg-da46pg0jo6nc73dpt74g-a.oregon-postgres.render.com/campaignpro}
+    username: ${DB_USERNAME:campaignpro_user}
+    password: ${DB_PASSWORD}
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5
@@ -31,16 +31,19 @@ spring:
     baseline-on-migrate: true
 
   mail:
-    host: ${MAIL_HOST:localhost}
-    port: ${MAIL_PORT:1025}
-    username: ${MAIL_USERNAME:}
-    password: ${MAIL_PASSWORD:}
+    host: ${MAIL_HOST:smtp-relay.brevo.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
-          auth: ${MAIL_SMTP_AUTH:false}
+          auth: ${MAIL_SMTP_AUTH:true}
           starttls:
-            enable: ${MAIL_SMTP_STARTTLS:false}
+            enable: ${MAIL_SMTP_STARTTLS:true}
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
   servlet:
     multipart:
@@ -88,7 +91,7 @@ app:
     max-retries: ${CAMPAIGN_MAX_RETRIES:3}
 
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
 
 logging:
   level:

@@ -1,0 +1,17 @@
+export const QUERY_KEYS = {
+  currentUser: ['currentUser'] as const,
+  contacts: (params?: unknown) => ['contacts', params] as const,
+  contact: (id: number) => ['contacts', id] as const,
+  contactGroups: ['contactGroups'] as const,
+  contactGroup: (id: number) => ['contactGroups', id] as const,
+  templates: (params?: unknown) => ['templates', params] as const,
+  template: (id: number) => ['templates', id] as const,
+  campaigns: (params?: unknown) => ['campaigns', params] as const,
+  campaign: (id: number) => ['campaigns', id] as const,
+  campaignRecipients: (id: number) => ['campaigns', id, 'recipients'] as const,
+  analyticsOverview: ['analytics', 'overview'] as const,
+  campaignAnalytics: (id: number) => ['analytics', 'campaigns', id] as const,
+  adminUsers: (params?: unknown) => ['admin', 'users', params] as const,
+  adminDashboard: ['admin', 'dashboard'] as const,
+  adminActivity: ['admin', 'activity'] as const,
+};
